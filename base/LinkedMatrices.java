@@ -1,108 +1,104 @@
-import java.util.*;
-import java.io.*;
+/** LinkedList2.java
+    doubly-linked list
+    uses node2
+*/
 
 public class LinkedMatrices{
-    Node head;
-  
-    public static void main(String[] args){
-        LinkedMatrices ll = new LinkedMatrices();
-        ll.append("A");
-        ll.append("B");
-        ll.append("C");
+
+  protected Node head;
+
+  public static void main(String[] args){
+    LinkedMatrices l2 = new LinkedMatrices();
+    GameOfLife newGame = new GameOfLife();
+    int[][] newMatrix = GameOfLife.initializeMatrix(GameOfLife.p);
+    l2.append(newMatrix);
+    newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
+    l2.append(newMatrix);
+    newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
+    l2.append(newMatrix);
+
+    l2.iterate();
+    // System.out.println();
+
+    // Node result = l2.search(mat);
+    // System.out.println(result.getPayload());
+    // System.out.println();
     
-        ll.traverse();
+    // l2.insertAfter(newMatrix, mat);
+    // System.out.println();
+    // l2.iterate();  
     
-        Node b = ll.search("B");
-        System.out.println(b + ": " + b.getPayload());
-    
-        ll.insertAfter("B", "T");
-        ll.traverse();
-    
-        ll.insertAfter("J", "K");
-    
-        ll.deleteNode("T");
-    
-        ll.traverse();
-  
-    } // end main
-  
-    public LinkedMatrices(){
-        head = null;
-    } // end constructor
-  
-    public void append(String value){
-      // append this value to the end of the list
-        Node currentNode = null;
-        // if list is empty, just make the node the new head
-        if (head == null){
-            head = new Node(value, null);
-        } else {
-            //if there are already nodes, go to the end
-            currentNode = head;
-            while (currentNode.getNext() != null){
-            currentNode = currentNode.getNext();
-            } // end while
-            // now the current node is the last node
-            // add a new node
-            currentNode.setNext(new Node(value, null));
-        } // end if
-    } // end append
-  
-    public void traverse(){
-        Node currentNode = head;
-        while (currentNode != null){
-            System.out.println(currentNode.getPayload());
-            currentNode = currentNode.getNext();
-        } // end while
-    } // end traverse
-  
-    public Node search(String value){
-        // return a node containing a string or 
-        // null if the string is not found
-        Node result = null;
-        Node currentNode = head;
-        while (currentNode.getNext() != null){
-            if (currentNode.getPayload().equals(value)){
-            result = currentNode;
-            } // end if
-            currentNode = currentNode.getNext();
-        } // end while
-        return result;
-    } // end search
-  
-    public void insertAfter(String prevString, String value){
-      Node before = search(prevString);
-      if(before == null){
-        System.out.println(prevString + " not found...");
-      } else {
-        Node after = before.getNext();
-        Node newNode = new Node(value, after);
-        before.setNext(newNode);
+    // System.out.println();
+    // l2.delete(mat);
+    // l2.iterate();
+
+  } // end main
+
+  public LinkedMatrices(){
+    head = null;
+  } // end constructor
+
+  public void append(int[][] newValue){
+    //adds new value to end of list
+    Node newNode = new Node(newValue, null, null);
+
+    //move to end of list
+    Node currentNode = head;
+    // if we have an empty list, the new element is the head
+    if (currentNode == null){
+      head = newNode;
+    } else {
+      while (currentNode.getNext() != null){
+        currentNode = currentNode.getNext();
+      } // end while: by end, currentNode should be last
+      currentNode.setNext(newNode);
+      newNode.setPrevious(currentNode);
+    } // end if
+  } // end append
+
+  public void iterate(){
+    Node currentNode = head;
+    while (currentNode != null){
+      GameOfLife.getMatrix(currentNode.getPayload());
+      currentNode = currentNode.getNext();
+    } // end while
+  } // end iterate
+
+  public Node search(int[][] target){
+    Node currentNode = head;
+    Node result = null;
+
+    while (currentNode != null){
+      if (currentNode.getPayload().equals(target)){
+        result = currentNode;
       } // end if
-    } // end insertAfter
-  
-    public void deleteNode(String value){
-      // check to see that node is there
-      if (search(value) == null){
-        System.out.println("That node is not here");
-      } else {
-        // special search preserves previous element
-        Node currentNode = head;
-        Node prevNode = head;
-        String currentVal;
-        while (currentNode != null){
-          currentVal = currentNode.getPayload();
-          if (currentVal.equals(value)){
-            // delete this element
-            Node nextNode = currentNode.getNext();
-            prevNode.setNext(nextNode);
-            // note we don't actually delete anything!
-          } // end if
-  
-          //move on to next node
-          prevNode = currentNode;
-          currentNode = currentNode.getNext();
-        } // end while
-      } // end if
-    } // end delete
-  } // end LinkedList
+      currentNode = currentNode.getNext();
+    } // end while
+    return result;
+  } // end search
+
+  public void insertAfter(int[][] target, int[][] value){
+    Node before = this.search(target);
+    if (before == null){
+      System.out.println("target not found");
+    } else {
+      Node after = before.getNext();
+      Node newNode = new Node(value, before, after);
+      before.setNext(newNode);
+      after.setPrevious(newNode);
+    } // end if
+  } // end insertAfter
+
+  public void delete(int[][] target){
+    Node targetNode = this.search(target);
+    if (targetNode == null){
+      System.out.println("target not found");
+    } else {
+      Node before = targetNode.getPrevious();
+      Node after = targetNode.getNext();
+      before.setNext(after);
+      after.setPrevious(before);
+      // target node will be deleted by garbage collector (we hope)
+    } // end if
+  } // end delete
+}

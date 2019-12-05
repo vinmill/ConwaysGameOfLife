@@ -1,48 +1,38 @@
-/** Node2.java
-    node for a double-linked list
-*/
+public class Node {
+  protected int[][] payload;
+  protected Node previous;
+  protected Node next;
 
-public class Node2 {
-  protected String payload;
-  protected Node2 previous;
-  protected Node2 next;
-
-  public Node2(){
-    this.payload = "";
-    this.previous = null;
-    this.next = null;
-  } // end constructor
-
-  public Node2(String payload, Node2 previous, Node2 next){
+  public Node(int[][] payload, Node previous, Node next){
     this.payload = payload;
     this.previous = previous;
     this.next = next;
   } // end constructor
 
   // payload accessors
-  public String getPayload(){
+  public int[][] getPayload(){
     return this.payload;
   } // end getPayload
 
-  public void setPayload(String payload){
+  public void setPayload(int[][] payload){
     this.payload = payload;
   } // end setPayload
 
   // previous accessors
-  public Node2 getPrevious(){
+  public Node getPrevious(){
     return this.previous;
   } // end getPrevious
 
-  public void setPrevious(Node2 previous){
+  public void setPrevious(Node previous){
     this.previous = previous;
   } // end setPrevious
 
   // next accessors
-  public Node2 getNext(){
+  public Node getNext(){
     return this.next;
   } // end getNext
 
-  public void setNext(Node2 next){
+  public void setNext(Node next){
     this.next = next;
   } // end setNext
 

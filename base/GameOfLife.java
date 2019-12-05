@@ -5,27 +5,27 @@ import java.io.*;
 public class GameOfLife {
 	// Specify the number of rows and columns of the matrix
 	// Specifiy the percentage of the space to be filled by random living cells
-	private static int rows = 20;
-	private static int columns = 50;
-	private static float p = 0.20f;
+	public static int rows = 20;
+	public static int columns = 50;
+	public static float p = 0.20f;
+	protected int[][] matrix;
 	public static void main(String[] args) {
 		GameOfLife newGame = new GameOfLife();
-		int[][] newMatrix = new int[rows][columns];
-		newGame.startSim(newMatrix,rows,columns);
+		newGame.startSim(rows,columns);
 	}
 
 	// Start the game
-	public void startSim(int[][] matrix,int rows, int columns) {
+	public void startSim(int rows, int columns) {
 		Scanner s = new Scanner(System.in);
-		setMatrix(matrix, p);
-		getMatrix(matrix);
+		int[][] m = initializeMatrix(p);
+		getMatrix(m);
 		String ch = s.nextLine();
 		while(!ch.equalsIgnoreCase("sadasdfsd"))
 		{
-			matrix = lifeCyle(matrix,rows,columns);
-			getMatrix(matrix);
+			m = lifeCyle(m,rows,columns);
+			getMatrix(m);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(400);
 			}
 			catch(Exception e){
 				System.out.println("Error.");
@@ -41,9 +41,10 @@ public class GameOfLife {
 	public int[][] lifeCyle(int[][] matrix, int rows, int columns) {
  
 		int[][] m = new int[rows][columns];
+		int i, j;
 
-		for(int i = 0; i < rows; i++){
-			for(int j = 0; j < columns; j++){
+		for(i = 0; i < rows; i++){
+			for(j = 0; j < columns; j++){
 				m[i][j] = godMode(matrix, i, j);
 			}
 		}
@@ -92,15 +93,16 @@ public class GameOfLife {
 		if(i < 0 || j < 0 || i == rows || j == columns) {
 			return val = 0;
 		}
-
 		if (matrix[i][j] == 1) {
 			return val = 1;
 		}
 		return val;
 	}
 
-	//Initialize an array
-	public void setMatrix(int[][] matrix, float percentageFill) {
+	//Initialize a matrix with random integers throughout the entire matrix
+	public static int[][] initializeMatrix(float percentageFill) {
+		int[][] matrix = new int[rows][columns];
+
 		for(int i = 0; i < matrix.length;i++){
 			int[] array = matrix[i];
 			for(int j = 0; j < array.length; j++) {
@@ -112,10 +114,11 @@ public class GameOfLife {
 				}
 			}
 		}
+		return matrix;
 	}
 
 	//Print the array
-	public void getMatrix(int[][] matrix) {
+	public static void getMatrix(int[][] matrix) {
 		for(int i = 0; i < matrix.length; i++){
 			int[] array = matrix[i];
 			for(int j = 0; j < array.length; j++){
