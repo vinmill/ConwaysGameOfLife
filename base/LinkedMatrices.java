@@ -17,6 +17,7 @@ public class LinkedMatrices{
     newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
     l2.append(newMatrix);
 
+    // l2.delete(l2.getHead());
     l2.iterate();
     // System.out.println();
 
@@ -60,9 +61,15 @@ public class LinkedMatrices{
     Node currentNode = head;
     while (currentNode != null){
       GameOfLife.getMatrix(currentNode.getPayload());
+      System.out.println(currentNode.getPayload());
       currentNode = currentNode.getNext();
     } // end while
   } // end iterate
+
+  public int[][] getHead(){
+    Node currentNode = head;
+    return currentNode.getPayload();
+  } // end getHead
 
   public Node search(int[][] target){
     Node currentNode = head;
@@ -93,12 +100,12 @@ public class LinkedMatrices{
     Node targetNode = this.search(target);
     if (targetNode == null){
       System.out.println("target not found");
-    } else {
-      Node before = targetNode.getPrevious();
-      Node after = targetNode.getNext();
-      before.setNext(after);
-      after.setPrevious(before);
-      // target node will be deleted by garbage collector (we hope)
-    } // end if
+      } else {
+        Node before = targetNode.getPrevious();
+        Node after = targetNode.getNext();
+        before.setNext(after);
+        after.setPrevious(before);
+        // target node will be deleted by garbage collector (we hope)
+      } // end if
   } // end delete
 }
