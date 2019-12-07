@@ -1,8 +1,3 @@
-/** LinkedList2.java
-    doubly-linked list
-    uses node2
-*/
-
 public class LinkedMatrices{
 
   protected Node head;
@@ -17,7 +12,9 @@ public class LinkedMatrices{
     newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
     l2.append(newMatrix);
 
-    // l2.delete(l2.getHead());
+    l2.iterate();
+    l2.delete(l2.GetNth(0));
+    System.out.println("------------------------------");
     l2.iterate();
     // System.out.println();
 
@@ -46,14 +43,15 @@ public class LinkedMatrices{
     //move to end of list
     Node currentNode = head;
     // if we have an empty list, the new element is the head
-    if (currentNode == null){
+    if (currentNode == null) {
       head = newNode;
-    } else {
-      while (currentNode.getNext() != null){
-        currentNode = currentNode.getNext();
-      } // end while: by end, currentNode should be last
-      currentNode.setNext(newNode);
-      newNode.setPrevious(currentNode);
+    } 
+    else {
+        while (currentNode.getNext() != null){
+          currentNode = currentNode.getNext();
+        } // end while: by end, currentNode should be last
+        currentNode.setNext(newNode);
+        newNode.setPrevious(currentNode);
     } // end if
   } // end append
 
@@ -62,14 +60,32 @@ public class LinkedMatrices{
     while (currentNode != null){
       GameOfLife.getMatrix(currentNode.getPayload());
       System.out.println(currentNode.getPayload());
+      System.out.println(currentNode.getPrevious());
+      System.out.println(currentNode.getNext());
+      
+
       currentNode = currentNode.getNext();
     } // end while
   } // end iterate
 
-  public int[][] getHead(){
-    Node currentNode = head;
-    return currentNode.getPayload();
-  } // end getHead
+  public int[][] GetNth(int index) { 
+      Node currentNode = head; 
+      int[][] nNode = null;
+      int count = 0; /* index of Node we are 
+                        currently looking at */
+      while (currentNode != null) { 
+          if (count == index) 
+              nNode = currentNode.getPayload(); 
+          count++; 
+          currentNode = currentNode.getNext(); 
+      } 
+
+      /* if we get to this line, the caller was asking 
+      for a non-existent element so we assert fail */
+      assert(false);
+      
+      return nNode;
+  }
 
   public Node search(int[][] target){
     Node currentNode = head;
@@ -97,15 +113,27 @@ public class LinkedMatrices{
   } // end insertAfter
 
   public void delete(int[][] target){
+    System.out.println(target);
     Node targetNode = this.search(target);
+    System.out.println(targetNode);
+
     if (targetNode == null){
-      System.out.println("target not found");
-      } else {
+        System.out.println("target not found");
+    } else {
         Node before = targetNode.getPrevious();
         Node after = targetNode.getNext();
-        before.setNext(after);
-        after.setPrevious(before);
-        // target node will be deleted by garbage collector (we hope)
-      } // end if
+        if (before == null){
+          after.setPrevious(null);
+          this.head = after;
+        }
+        else if (after == null ){
+          before.setNext(null);
+        }
+        else {
+          before.setNext(after);
+          after.setPrevious(before);
+        }
+      // target node will be deleted by garbage collector (we hope)
+    } // end if
   } // end delete
 }
