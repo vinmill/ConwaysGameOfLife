@@ -4,12 +4,12 @@ public class LinkedMatrices{
 
   public static void main(String[] args){
     LinkedMatrices l2 = new LinkedMatrices();
-    GameOfLife newGame = new GameOfLife();
+    GameOfLife newGame = new GameOfLife(GameOfLife.rows, GameOfLife.columns, GameOfLife.p);
     int[][] newMatrix = GameOfLife.initializeMatrix(GameOfLife.p);
     l2.append(newMatrix);
-    newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
+    newMatrix = newGame.lifeCyle(newMatrix);
     l2.append(newMatrix);
-    newMatrix = newGame.lifeCyle(newMatrix, GameOfLife.rows, GameOfLife.columns);
+    newMatrix = newGame.lifeCyle(newMatrix);
     l2.append(newMatrix);
 
     l2.iterate();
@@ -55,27 +55,28 @@ public class LinkedMatrices{
     } // end if
   } // end append
 
-  public void iterate(){
+  public int iterate(){
     Node currentNode = head;
+    int count = 0;
     while (currentNode != null){
-      GameOfLife.getMatrix(currentNode.getPayload());
-      System.out.println(currentNode.getPayload());
-      System.out.println(currentNode.getPrevious());
-      System.out.println(currentNode.getNext());
-      
-
+      // GameOfLife.getMatrix(currentNode.getPayload());
+      // System.out.println(currentNode.getPayload());
+      // System.out.println(currentNode.getPrevious());
+      // System.out.println(currentNode.getNext());
+      count++;
       currentNode = currentNode.getNext();
     } // end while
+    return count;
   } // end iterate
 
-  public int[][] GetNth(int index) { 
+  public Node GetNth(int index) { 
       Node currentNode = head; 
-      int[][] nNode = null;
+      Node nNode = null;
       int count = 0; /* index of Node we are 
                         currently looking at */
       while (currentNode != null) { 
           if (count == index) 
-              nNode = currentNode.getPayload(); 
+              nNode = currentNode; 
           count++; 
           currentNode = currentNode.getNext(); 
       } 
@@ -87,7 +88,7 @@ public class LinkedMatrices{
       return nNode;
   }
 
-  public Node search(int[][] target){
+  public Node search(Node target){
     Node currentNode = head;
     Node result = null;
 
@@ -100,7 +101,7 @@ public class LinkedMatrices{
     return result;
   } // end search
 
-  public void insertAfter(int[][] target, int[][] value){
+  public void insertAfter(Node target, int[][] value){
     Node before = this.search(target);
     if (before == null){
       System.out.println("target not found");
@@ -112,7 +113,7 @@ public class LinkedMatrices{
     } // end if
   } // end insertAfter
 
-  public void delete(int[][] target){
+  public void delete(Node target){
     System.out.println(target);
     Node targetNode = this.search(target);
     System.out.println(targetNode);
@@ -136,4 +137,41 @@ public class LinkedMatrices{
       // target node will be deleted by garbage collector (we hope)
     } // end if
   } // end delete
+
+  public static int identical(int[][] A, int[][] B){
+    int i, j;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++){
+            if (A[i][j] != B[i][j]){
+                return 0;
+            }
+        }
+    }
+    return 1; 
+
+}
+
+public int findMatch(LinkedMatrices lm){
+    int count = 0;
+    int i = lm.iterate();
+    Node last = lm.GetNth(i-1);
+    Node previous = last.getPrevious();
+    while (previous != null ) {
+      int x = identical(last.getPayload(), previous.getPayload());
+      if (x == 1) {
+        GameOfLife.getMatrix(last.getPayload());
+        GameOfLife.getMatrix(previous.getPayload());
+
+        return count;
+      }
+      else {
+        count++;
+      }
+      previous = previous.getPrevious();
+    }
+
+    return count = 0;
+  }
+
+
 }

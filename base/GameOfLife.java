@@ -10,19 +10,28 @@ public class GameOfLife {
 	public static float p = 0.20f;
 	protected int[][] matrix;
 	public static void main(String[] args) {
-		GameOfLife newGame = new GameOfLife();
-		newGame.startSim(rows,columns);
+		float p = 0.20f;
+		int i = 30;
+		int j = 60;
+		GameOfLife newGame = new GameOfLife(i, j, p);
+		newGame.startSim();
+	}
+
+	public GameOfLife (int rows, int columns, float p) {
+		GameOfLife.rows = rows;
+		GameOfLife.columns = columns;
+		GameOfLife.p = p;
 	}
 
 	// Start the game
-	public void startSim(int rows, int columns) {
+	public void startSim() {
 		Scanner s = new Scanner(System.in);
 		int[][] m = initializeMatrix(p);
 		getMatrix(m);
 		String ch = s.nextLine();
 		while(!ch.equalsIgnoreCase("sadasdfsd"))
 		{
-			m = lifeCyle(m,rows,columns);
+			m = lifeCyle(m);
 			getMatrix(m);
 			try {
 				Thread.sleep(400);
@@ -38,7 +47,7 @@ public class GameOfLife {
 	
 
 	// Create a method to generate a new matrix
-	public int[][] lifeCyle(int[][] matrix, int rows, int columns) {
+	public int[][] lifeCyle(int[][] matrix) {
  
 		int[][] m = new int[rows][columns];
 		int i, j;
