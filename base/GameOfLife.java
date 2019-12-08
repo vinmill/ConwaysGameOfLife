@@ -14,7 +14,6 @@ public class GameOfLife {
 		int i = 30;
 		int j = 60;
 		GameOfLife newGame = new GameOfLife(i, j, p);
-		newGame.startSim();
 	}
 
 	public GameOfLife (int rows, int columns, float p) {
@@ -24,26 +23,7 @@ public class GameOfLife {
 	}
 
 	// Start the game
-	public void startSim() {
-		Scanner s = new Scanner(System.in);
-		int[][] m = initializeMatrix(p);
-		getMatrix(m);
-		String ch = s.nextLine();
-		while(!ch.equalsIgnoreCase("sadasdfsd"))
-		{
-			m = lifeCyle(m);
-			getMatrix(m);
-			try {
-				Thread.sleep(400);
-			}
-			catch(Exception e){
-				System.out.println("Error.");
-			}
- 
-		}
-		s.close();
-		System.out.println("Game Over");
-	}
+
 	
 
 	// Create a method to generate a new matrix
@@ -109,13 +89,13 @@ public class GameOfLife {
 	}
 
 	//Initialize a matrix with random integers throughout the entire matrix
-	public static int[][] initializeMatrix(float percentageFill) {
+	public static int[][] initializeMatrix() {
 		int[][] matrix = new int[rows][columns];
 
 		for(int i = 0; i < matrix.length;i++){
 			int[] array = matrix[i];
 			for(int j = 0; j < array.length; j++) {
-				if (Math.random() < percentageFill) {
+				if (Math.random() < p) {
 					array[j] = 1;
 				}
 				else {

@@ -3,20 +3,41 @@ public class LinkedMatrices{
   protected Node head;
 
   public static void main(String[] args){
+    int i = 15, j = 15;
+    float p = 0.20f;
     LinkedMatrices l2 = new LinkedMatrices();
-    GameOfLife newGame = new GameOfLife(GameOfLife.rows, GameOfLife.columns, GameOfLife.p);
-    int[][] newMatrix = GameOfLife.initializeMatrix(GameOfLife.p);
-    l2.append(newMatrix);
-    newMatrix = newGame.lifeCyle(newMatrix);
-    l2.append(newMatrix);
-    newMatrix = newGame.lifeCyle(newMatrix);
-    l2.append(newMatrix);
+    GameOfLife newGame = new GameOfLife(i, j, p);
+    // int[][] newMatrix = {{0,0,0},
+    //                       {1,1,1},
+    //                     {0,0,0}};
+    int[][] newMatrix = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,1,1,1,0,0,0,1,1,1,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,0,0,1,1,1,0,0,0,1,1,1,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,1,1,1,0,0,0,1,1,1,0,0,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,1,0,0,0,0,1,0,1,0,0,0,0,1,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                          {0,0,0,1,1,1,0,0,0,1,1,1,0,0,0},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-    l2.iterate();
-    l2.delete(l2.GetNth(0));
-    System.out.println("------------------------------");
-    l2.iterate();
-    // System.out.println();
+    GameOfLife.getMatrix(newMatrix);
+    for (int z = 0; z < 7; z++) {
+      l2.append(newMatrix);
+      newMatrix = newGame.lifeCyle(newMatrix);
+      GameOfLife.getMatrix(newMatrix);
+    }
+    System.out.println("-----------------");
+
+    int x = l2.findMatch(l2);
+
+    
+    System.out.println("iterator : " + x);
 
     // Node result = l2.search(mat);
     // System.out.println(result.getPayload());
@@ -140,8 +161,8 @@ public class LinkedMatrices{
 
   public static int identical(int[][] A, int[][] B){
     int i, j;
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++){
+    for (i = 0; i < GameOfLife.rows; i++) {
+        for (j = 0; j < GameOfLife.columns; j++){
             if (A[i][j] != B[i][j]){
                 return 0;
             }
@@ -158,19 +179,16 @@ public int findMatch(LinkedMatrices lm){
     Node previous = last.getPrevious();
     while (previous != null ) {
       int x = identical(last.getPayload(), previous.getPayload());
-      if (x == 1) {
-        GameOfLife.getMatrix(last.getPayload());
-        GameOfLife.getMatrix(previous.getPayload());
 
+      count++;
+
+      if (x == 1) {
         return count;
-      }
-      else {
-        count++;
       }
       previous = previous.getPrevious();
     }
 
-    return count = 0;
+    return count;
   }
 
 
