@@ -8,7 +8,7 @@ public class GameOfLife {
 	public static int rows = 20;
 	public static int columns = 50;
 	public static float p = 0.20f;
-	protected int[][] matrix;
+	public static int[][] matrix;
 	public static void main(String[] args) {
 		float p = 0.20f;
 		int i = 30;
@@ -20,6 +20,12 @@ public class GameOfLife {
 		GameOfLife.rows = rows;
 		GameOfLife.columns = columns;
 		GameOfLife.p = p;
+	}
+
+	public GameOfLife (int rows, int columns, int[][] matrix) {
+		GameOfLife.rows = rows;
+		GameOfLife.columns = columns;
+		GameOfLife.matrix = matrix;
 	}
 
 	// Start the game

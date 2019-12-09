@@ -93,8 +93,7 @@ public class LinkedMatrices{
   public Node GetNth(int index) { 
       Node currentNode = head; 
       Node nNode = null;
-      int count = 0; /* index of Node we are 
-                        currently looking at */
+      int count = 0; 
       while (currentNode != null) { 
           if (count == index) 
               nNode = currentNode; 
@@ -102,8 +101,6 @@ public class LinkedMatrices{
           currentNode = currentNode.getNext(); 
       } 
 
-      /* if we get to this line, the caller was asking 
-      for a non-existent element so we assert fail */
       assert(false);
       
       return nNode;
@@ -135,12 +132,10 @@ public class LinkedMatrices{
   } // end insertAfter
 
   public void delete(Node target){
-    System.out.println(target);
     Node targetNode = this.search(target);
-    System.out.println(targetNode);
 
     if (targetNode == null){
-        System.out.println("target not found");
+        assert(false);
     } else {
         Node before = targetNode.getPrevious();
         Node after = targetNode.getNext();
