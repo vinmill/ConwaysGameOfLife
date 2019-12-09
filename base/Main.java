@@ -8,7 +8,7 @@ public class Main implements Serializable{
 
     public static void startSim(int i, int j, float p) {
         
-		Scanner s = new Scanner(System.in);
+		Scanner ss = new Scanner(System.in);
 		LinkedMatrices l2 = new LinkedMatrices();
 		GameOfLife newGame = new GameOfLife(i, j, p);
         int[][] newMatrix = GameOfLife.initializeMatrix();
@@ -18,7 +18,7 @@ public class Main implements Serializable{
         l2.append(newMatrix);
         GameOfLife.getMatrix(newMatrix);
         System.out.println("Would you like to continue? (enter)");
-        String ch = s.nextLine();
+        String ch = ss.nextLine();
         Boolean keepGoing = true;
         int x = 0;
 		while(keepGoing)
@@ -38,7 +38,6 @@ public class Main implements Serializable{
             }
         }
         AddConfigMenu(i, j, initialMatrix, counter, x);
-        s.close();
     }
 
     public static void AddConfigMenu(int row, int column, int[][] array, int generations, int maxPeriod){
@@ -52,6 +51,8 @@ public class Main implements Serializable{
             Configuration c = new Configuration(row, column, array, generations, maxPeriod);
             cfg.add(c);
             serialArray(cfg);
+            System.out.println("Configuration saved.");
+            
         } else if (r == 2) {
             System.out.println("Goodbye");
         }
@@ -59,7 +60,7 @@ public class Main implements Serializable{
 
     public static void startNewSim(int i, int j, int[][] newMatrix) {
         
-		Scanner s = new Scanner(System.in);
+		Scanner sss = new Scanner(System.in);
 		LinkedMatrices l2 = new LinkedMatrices();
         GameOfLife newGame = new GameOfLife(i,j,newMatrix);
 
@@ -67,7 +68,8 @@ public class Main implements Serializable{
         l2.append(newMatrix);
         GameOfLife.getMatrix(newMatrix);
         System.out.println("Would you like to continue? (enter)");
-        String ch = s.nextLine();
+        String ch = sss.nextLine();
+
         Boolean keepGoing = true;
 		while(keepGoing)
 		{
@@ -85,30 +87,34 @@ public class Main implements Serializable{
                 System.out.print("The terminating state contained at least one period " + x + " oscillator.");
             }
 		}
-        s.close();
     }
 
-    public static int MainMenu() {
+    public static void MainMenu() {
+        boolean keepGoing = true;
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome to Conway's game of life. A simulation of cellular automata.");
-        System.out.println("1. Generate a new simulation with specific initial conditions.");
-        System.out.println("2. Choose an existing configuration from a previous simulation.");
-        System.out.println("3. Exit.");
-        int ch = s.nextInt();
-        System.out.println();    
 
-        if (ch == 1) {
-            NewSimMenu();
-        } else if (ch == 2) {
-            ConfigMenu();
-        } else if (ch == 3) {
-            System.out.println("Goodbye.");
-        } else {
-            System.out.println("Invalid input. Try again.");
-            return 0; 
+        while (keepGoing){
+
+            System.out.println("Welcome to Conway's game of life. A simulation of cellular automata.");
+            System.out.println("1. Generate a new simulation with specific initial conditions.");
+            System.out.println("2. Choose an existing configuration from a previous simulation.");
+            System.out.println("3. Exit.");
+            int ch = s.nextInt();
+
+            System.out.println();    
+
+            if (ch == 1) {
+                NewSimMenu();
+            } else if (ch == 2) {
+                ConfigMenu();
+            } else if (ch == 3) {
+                System.out.println("Goodbye.");
+                keepGoing = false;
+            } else {
+                System.out.println("Invalid input. Try again.");
+            }
+            System.out.println();
         }
-
-        return 1;
 
     }
 
@@ -130,9 +136,9 @@ public class Main implements Serializable{
 
     public static void ConfigMenu() {
         getConfigs();
-        Scanner q = new Scanner(System.in);
+        Scanner qq = new Scanner(System.in);
         System.out.println("Enter the index of the config that you want to use.");
-        int r = q.nextInt();
+        int r = qq.nextInt();
         Configuration c = setConfig(r);
         startNewSim(c.getRows(), c.getColumns(), c.getInitArray());
         System.out.println(); 
@@ -152,11 +158,15 @@ public class Main implements Serializable{
 
     public static Configuration setConfig(int i) {
         ArrayList<Configuration> cfgs = deSerialArray();
-        Configuration c = cfgs.get(i);
+        Configuration c = new Configuration();
+        if (i < cfgs.size() && i >= 0) {
+            c = cfgs.get(i);
+        } else {
+            System.out.println("Invalid input.");
+        }
         serialArray(cfgs);
-
+        
         return c;
-
     }
 
     public static void serialArray(ArrayList<Configuration> cfgs) {
