@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args){
         Main m = new Main();
         float p = 0.20f;
-        m.startSim(10,10,p);
+        m.startSim(70,100,p);
     
     }
 
@@ -16,8 +16,7 @@ public class Main {
 		GameOfLife newGame = new GameOfLife(i, j, p);
         int[][] newMatrix = GameOfLife.initializeMatrix();
 
-        GameOfLife.getMatrix(newMatrix);
-        newMatrix = newGame.lifeCyle(newMatrix);
+        int counter = 0;
         l2.append(newMatrix);
         GameOfLife.getMatrix(newMatrix);
         String ch = s.nextLine();
@@ -28,17 +27,12 @@ public class Main {
             l2.append(newMatrix);
             int x = l2.findMatch(l2);
             GameOfLife.getMatrix(newMatrix);
+            counter++;
             if (x != 0) {
                 keepGoing = false;
-                System.out.print("iterator : " + x);
+                System.out.print("Simulation reached a stable state after " + counter + " generations.");
+                System.out.print("The terminating state contained at least one period " + x + " oscillator.");
             }
-			try {
-				Thread.sleep(400);
-			}
-			catch(Exception e){
-				System.out.println("Error.");
-			}
- 
 		}
 		s.close();
 		System.out.println("Game Over");
