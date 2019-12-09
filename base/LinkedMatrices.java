@@ -177,8 +177,9 @@ public int findMatch(LinkedMatrices lm){
     int i = lm.iterate();
     Node last = lm.GetNth(i-1);
     Node previous = last.getPrevious();
-    while (previous != null ) {
-      int x = identical(last.getPayload(), previous.getPayload());
+    int x = 0;
+    while (previous != null) {
+      x = identical(last.getPayload(), previous.getPayload());
 
       count++;
 
@@ -187,8 +188,11 @@ public int findMatch(LinkedMatrices lm){
       }
       previous = previous.getPrevious();
     }
+    if (previous == null) {
+      count = 0;
+    }
 
-    return count;
+    return count ;
   }
 
 

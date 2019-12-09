@@ -4,21 +4,22 @@ import java.io.*;
 public class Main {
     public static void main(String[] args){
         Main m = new Main();
-        m.startSim();
+        float p = 0.20f;
+        m.startSim(10,10,p);
     
     }
 
-    public void startSim() {
-        float p = 0.20f;
-		int i = 30;
-        int j = 60;
+    public void startSim(int i, int j, float p) {
         
 		Scanner s = new Scanner(System.in);
 		LinkedMatrices l2 = new LinkedMatrices();
 		GameOfLife newGame = new GameOfLife(i, j, p);
-        int[][] newMatrix = GameOfLife.initializeMatrix(GameOfLife.p);
+        int[][] newMatrix = GameOfLife.initializeMatrix();
 
-		GameOfLife.getMatrix(newMatrix);
+        GameOfLife.getMatrix(newMatrix);
+        newMatrix = newGame.lifeCyle(newMatrix);
+        l2.append(newMatrix);
+        GameOfLife.getMatrix(newMatrix);
         String ch = s.nextLine();
         Boolean keepGoing = true;
 		while(keepGoing)
