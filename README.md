@@ -1,4 +1,4 @@
-# Title: A perdictive implementation of conway's game of life
+# A perdictive implementation of conway's game of life
 
 ## Project Summary
 
