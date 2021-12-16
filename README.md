@@ -1,4 +1,4 @@
-# A perdictive implementation of conway's game of life
+# A predictive implementation of conway's game of life
 
 ## Project Summary
 
